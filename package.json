@@ -1,0 +1,39 @@
+{
+  "name": "sfree",
+  "title": "SFree Games",
+  "version": "1.0.0",
+  "icono": "/icon.svg",
+  "server": {
+    "homepage": "/update",
+    "port": 3070,
+    "host": "http://localhost",
+    "pathviews": "app/views",
+    "pathpublic": "app/public"
+  },
+  "description": "Descarga tus juegos gratis.",
+  "tags": "Downloads, Games, Torrents",
+  "main": "sfree.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devlwte/sfree.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "devlwte",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.5.1",
+    "adm-zip": "^0.5.10",
+    "sqlite3": "^5.1.6",
+    "moment": "^2.29.4",
+    "imgminify-down": "^1.0.0",
+    "parse-torrent": "9.1.5",
+    "webtorrent": "1.9.1"
+  },
+  "webPreferences": {
+    "nodeIntegration": true,
+    "contextIsolation": false
+  }
+}

@@ -23,13 +23,82 @@
 
 </head>
 
-<body>
+<body class="page-home">
   <!-- Menu -->
   <%- include('../include/menu.ejs') %>
 
   <div class="contenedor-app">
-    <div class="banner">
+    <div class="banner z-depth-1">
+      <div class="datainfo">
+        <div class="scroll_div">
+          <div class="container h-visible">
+            <div class="tags">
+              <ul class="list-tags">
+                <!-- Agrega más elementos <li> si es necesario -->
+              </ul>
+            </div>
+            <div class="date_add">
+              <span class="icon-date_range"></span> <span class="date_text">Cargando fecha</span>
+            </div>
+            <div class="name_post">
+              <h4 class="name_in_banner">Cargando nombre...</h4>
+            </div>
+            <div class="short_dcp">
+              <p class="dcp_short">Cargando descripcion</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
+    <div class="container">
+      <div class="liner_game"></div>
+      <div class="columns-apps">
+        <div class="columns-left columns-row">
+          <div class="container-left">
+            <div class="title_page">
+              Juegos Recientes
+            </div>
+            <div class="list_rec" id="recent">
+
+              <!-- <li>
+                <div class="img_rec"></div>
+                <div class="data_art">
+                  <div class="name_art">Halo: The Master Chief Collection</div>
+                  <div class="dcp_rec">Halo: The Master Chief Collection es una remasterización de los videojuegos...</div>
+                </div>
+              </li> -->
+
+            </div>
+          </div>
+        </div>
+        <div class="columns-right columns-row">
+          <div class="title_page">
+            Esto te puede interesar
+          </div>
+          <div class="container-col" id="interests">
+            <!-- <div class="columns-col">
+              <div class="item">
+                <span class="recentpost"><span>Estreno</span></span>
+              </div>
+              <div class="item-name"></div>
+            </div> -->
+          </div>
+
+          <div class="title_page">
+            Recomendados
+          </div>
+          <div class="container-col" id="melikes">
+            <!-- <div class="columns-col">
+              <div class="item">
+                <span class="recentpost"><span>Estreno</span></span>
+              </div>
+              <div class="item-name"></div>
+            </div> -->
+          </div>
+
+        </div>
+      </div>
     </div>
   </div>
 

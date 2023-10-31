@@ -3,6 +3,9 @@ const { app, BrowserWindow, dialog } = require('electron');
 const path = require("path");
 const fs = require("fs");
 
+// URL
+const { URLSearchParams, URL } = require('url');
+
 // Saved
 const saved = require('../../modules/saved')
 
@@ -18,8 +21,29 @@ const package_app = require("./package.json")
 // UtilCode
 const utilcode = require("../../modules/utilcodes");
 
+// UtilCode
+const prompts = require("./app/modules/prompts");
+
 // libraries
 const lib = require("../../modules/util-libraries");
+
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args))
+
+async function fet(url) {
+    try {
+        const response = await fetch(url);
+
+        if (response.status !== 200) {
+            throw new Error('Error en la solicitud: ' + response.status);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+}
 
 // Read Files Json
 async function openFileJson(file, existfile = false, value = "") {
@@ -51,6 +75,7 @@ async function folderReq() {
     await setFolders(userdata, "apps/sfree/json/banner");
     await setFolders(userdata, "apps/sfree/json/info");
     await setFolders(userdata, "apps/sfree/json/db");
+    await setFolders(userdata, "apps/sfree/json/user");
 
     // cargar json con los datos de los juego
     if (!saved.hasKey("articles")) {
@@ -60,6 +85,42 @@ async function folderReq() {
 
 }
 
+// isArray
+function isArrayorText(ojc) {
+    try {
+        if (Array.isArray(ojc)) {
+            if (ojc.every(item => typeof item === "object")) {
+                return "object_array";
+            }
+        }
+        return "text_array";
+    } catch (error) {
+        return "text";
+    }
+}
+
+// get Querys
+function getQuery(url) {
+    const datauri = new URL(url);
+    const params = new URLSearchParams(datauri.search);
+
+    const queryParams = {};
+
+    for (const [key, value] of params) {
+        if (queryParams[key]) {
+            if (Array.isArray(queryParams[key])) {
+                queryParams[key].push(value);
+            } else {
+                queryParams[key] = [queryParams[key], value];
+            }
+        } else {
+            queryParams[key] = value;
+        }
+    }
+
+    return { ...{ pathuri: `${datauri.origin + datauri.pathname}` }, ...queryParams };
+}
+
 
 const routes = [
     {
@@ -67,6 +128,7 @@ const routes = [
         path: '/update',
         handler: async (req, res) => {
             await folderReq();
+            await openFileJson(path.join(userdata, "apps", "sfree", "json", "user", "user.json"), true, {name: utilcode.getUUID(5)});
             res.render(path.join(__dirname, "app", "views", "update"));
             // res.redirect('/');
         }
@@ -83,6 +145,85 @@ const routes = [
         path: '/games',
         handler: async (req, res) => {
             res.render(path.join(__dirname, "app", "views", "games"));
+        }
+    },
+    {
+        method: "post",
+        path: "/saveimg",
+        handler: async (req, res) => {
+            // page
+            let { img, ...arg } = req.body;
+
+            let resp = await prompts.compressIMG(img, {
+                ...arg
+            });
+
+
+            if (resp) {
+                res.send({ img: resp });
+            } else {
+                res.send(false);
+            }
+
+        },
+    },
+    {
+        method: 'post',
+        path: '/proxy',
+        handler: async (req, res) => {
+            let { urls } = req.body;
+
+            const verificar = isArrayorText(urls);
+
+            let whattype = "object";
+
+            let result = {};
+
+            if (verificar == "text_array") {
+                let resultget = 0;
+
+                for (const urldownload of urls) {
+                    let response = await fet(urldownload);
+                    if (response) {
+                        if (isArrayorText(response) == "object_array") {
+                            if (whattype == "object") {
+                                whattype = "array";
+                                result = [];
+                            }
+
+                            result = [...result, ...response];
+
+                        } else {
+                            if (response.query) {
+                                if (response.query.pages) {
+                                    let getid = getQuery(urldownload);
+                                    response = response.query.pages[getid.pageids]
+                                }
+                            }
+                            result = {
+                                ...result,
+                                ...response
+                            }
+                        }
+
+                    } else {
+                        result = {
+                            ends: false
+                        }
+                    }
+                    resultget++;
+
+                    if (urls.length === resultget) {
+
+                    }
+                }
+
+            } else {
+                result = false
+            }
+
+            res.json(result);
+
         }
     },
     {

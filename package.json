@@ -5,8 +5,6 @@
   "icono": "/icon.svg",
   "server": {
     "homepage": "/update",
-    "port": 3070,
-    "host": "http://localhost",
     "pathviews": "app/views",
     "pathpublic": "app/public"
   },

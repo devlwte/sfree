@@ -148,6 +148,13 @@ const routes = [
         }
     },
     {
+        method: 'get',
+        path: '/watch',
+        handler: async (req, res) => {
+            res.render(path.join(__dirname, "app", "views", "view"));
+        }
+    },
+    {
         method: "post",
         path: "/saveimg",
         handler: async (req, res) => {

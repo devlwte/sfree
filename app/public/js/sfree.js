@@ -326,8 +326,6 @@ kit.onDOMReady(async () => {
     // All folders
     const folders = await sendMessage("all-folders");
     saved.addSaved("folders", folders);
-    console.log(folders);
-
 
     const input_search = document.getElementById('search-page');
     if (input_search) {
@@ -839,6 +837,7 @@ kit.onDOMReady(async () => {
         await recent(getAzar(elms, 8), elm, template, stylecss, 8);
 
     };
+
 
     // recommend
     const getRecommend = async (arrays, elm) => {

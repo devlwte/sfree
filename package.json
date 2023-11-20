@@ -23,12 +23,14 @@
   "license": "MIT",
   "dependencies": {
     "adm-zip": "^0.5.10",
+    "electron-store": "^8.1.0",
     "sqlite3": "^5.1.6",
     "moment": "^2.29.4",
     "imgminify-down": "^1.0.0",
     "node-fetch": "^3.3.2",
     "parse-torrent": "9.1.5",
     "uuid": "^9.0.1",
+    "sharp": "^0.32.6",
     "webtorrent": "1.9.1"
   },
   "webPreferences": {
